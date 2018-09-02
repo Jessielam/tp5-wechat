@@ -10,3 +10,6 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
+
+// NOTE: id 是客户端传过来的任何东西都是不可信的，需要验证规则 -- 参数校验
+Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
