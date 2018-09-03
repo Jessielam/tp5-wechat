@@ -26,4 +26,14 @@ class BaseValidate extends Validate
             return true;
         }
     }
+
+    protected function isPostiveInteger($value, $rule = '', $data = '', $field = '')
+    {
+        // id 必须是正整数
+        if (preg_match('/^[1-9]\d*$/', $value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
