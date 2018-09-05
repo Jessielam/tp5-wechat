@@ -167,9 +167,11 @@ class Order
         $pStatus = [
             'id' => '',
             'haveStock' => false,
-            'count' => 0,
+            'counts' => 0,
             'name' => '',
-            'totalPrice' => 0
+            'price' => 0,
+            'totalPrice' => 0,
+            'main_img_url' => ''
         ];
         $products = $this->products;
         // 实际的商品数据是否有该商品记录
@@ -187,8 +189,10 @@ class Order
             $product = $products[$pIndex];
             $pStatus['id'] = $product['id'];
             $pStatus['name'] = $product['name'];
-            $pStatus['count'] = $oCount;
+            $pStatus['counts'] = $oCount;
             $pStatus['totalPrice'] = $product['price'] * $oCount;
+            $pStatus['price'] = $product['price'];
+            $pStatus['main_img_url'] = $product['main_img_url'];
             if ($product['stock'] - $oCount >= 0) {
                 $pStatus['haveStock'] = true;
             }

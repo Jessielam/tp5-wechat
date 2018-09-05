@@ -31,14 +31,17 @@ Route::group('api/:version/product', function(){
 
 Route::get('api/:version/category/all', 'api/:version.Category/getAllCategories');
 
+// token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
+Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 
 // 用户地址
 Route::post('api/:version/address', 'api/:version.Address/createOrUpdateAddress');
+Route::get('api/:version/address', 'api/:version.Address/getUserAddress');
 
 // 订单
 Route::post('api/:version/order', 'api/:version.Order/placeOrder');
-Route::post('api/:version/order/by_user', 'api/:version.Order/getOrderListByUser');
+Route::get('api/:version/order/by_user', 'api/:version.Order/getOrderListByUser');
 Route::get('api/:version/order/:id', 'api/:version.Order/getOrderDetail', [], ['id' => '\d+']);
 
 // 支付
