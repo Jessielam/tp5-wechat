@@ -21,8 +21,9 @@ use app\api\service\Token as TokenService;
 use app\api\service\Order as OrderService;
 use app\api\controller\BaseController;
 use app\api\validate\OrderPlace;
-use api\api\validate\PagingParameter;
+use app\api\validate\PagingParameter;
 use app\api\model\Order as OrderModel;
+use app\api\validate\IDMustBePostiveInt;
 
 class Order extends BaseController
 {
@@ -50,7 +51,7 @@ class Order extends BaseController
      * @param int $page 当前页
      * @param int $size 每页最大数量
      */
-    public function getOrderListByUser($page=1, $size=15)
+    public function getOrderListByUser($page=1, $size=5)
     {
         (new PagingParameter())->goCheck();
         $uid = TokenService::getCurrentUid();
@@ -59,7 +60,7 @@ class Order extends BaseController
         {
             return [
                 'current_page' => $pagingOrders->currentPage(),
-                'data' => []
+                'data' => ['data' => []]
             ];
         }
         $data = $pagingOrders->hidden(['snap_items', 'snap_address'])->toArray();
@@ -73,13 +74,14 @@ class Order extends BaseController
     // 获取订单详情
     public function getOrderDetail($id)
     {
-        (new IDMustBePositiveInt())->goCheck();
+        (new IDMustBePostiveInt())->goCheck();
         $detail = OrderModel::get($id); // get 模型方法
         if (!$detail) {
             throw new OrderException();
         }
 
-        return $detail->hidden(['prepay_id']);
+        $data = $detail->hidden(['prepay_id']);
+        return $data->toArray();
     } 
 
     // 订单发货

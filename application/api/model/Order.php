@@ -13,8 +13,9 @@ class Order extends Base
     }
 
     public function getSnapItemsAttr($value)
-    {   
-        if ($value) {
+    {
+        if(empty($value))
+        {
             return null;
         }
         return json_decode($value);
@@ -25,8 +26,7 @@ class Order extends Base
         if(empty($value)){
             return null;
         }
-
-        return json_decode($value);
+        return json_decode(($value));
     }
 
     /**
