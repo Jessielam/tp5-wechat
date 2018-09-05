@@ -5,9 +5,9 @@ namespace app\api\controller\v1;
 use app\api\validate\IDMustBePostiveInt;
 use app\api\model\Banner as BannerModel;
 use app\lib\exception\MissException;
-use think\Controller;
+use app\api\controller\BaseController;
 
-class Banner extends Controller
+class Banner extends BaseController
 {
     /**
      * 获取指定id的banner信息

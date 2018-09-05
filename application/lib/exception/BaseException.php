@@ -28,7 +28,7 @@ class BaseException extends \Exception
         }
 
         if (array_key_exists('errorCode', $params)) {
-            $this->msg = $params['errorCode'];
+            $this->errorCode = $params['errorCode'];
         }
     }
 }
