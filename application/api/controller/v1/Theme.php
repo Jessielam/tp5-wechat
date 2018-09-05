@@ -2,13 +2,13 @@
 
 namespace app\api\controller\v1;
 
-use think\Controller;
 use think\Request;
 use app\api\validate\{IDCollection, IDMustBePostiveInt};
 use app\api\model\Theme as ThemeModel;
 use app\lib\exception\ThemeException;
+use app\api\controller\BaseController;
 
-class Theme extends Controller
+class Theme extends BaseController
 {
     /**
      * 获取精选主题简单列表
@@ -20,7 +20,7 @@ class Theme extends Controller
         (new IDCollection())->goCheck();
         $ids = explode(',', $ids);
         $result = (new ThemeModel())->getThemsListsByIds($ids);
-        if (!$result) {
+        if ($result->isEmpty()) {
             throw new ThemeException();
         }
         return $result;
