@@ -30,8 +30,8 @@ class Order extends BaseController
     // 定义前置方法，控制权限
     protected $beforeActionList = [
         'checkExclusiveScope' => ['only' => 'placeOrder'],
-        'checkPrimaryScope' => ['only' => 'getOrderDetail,getOrderListByUser'],
-        'checkSuperScope' => ['only' => 'delivery']
+        'checkPrimaryScope' => ['only' => 'getDetail,getOrderListByUser'],
+        // 'checkSuperScope' => ['only' => 'delivery,getSummary']
     ];
     
     // 用户下单
@@ -84,14 +84,40 @@ class Order extends BaseController
         return $data->toArray();
     } 
 
+    /**
+     * 获取全部订单简要信息（分页）
+     * @param int $page
+     * @param int $size
+     * @return array
+     * @throws \app\lib\exception\ParameterException
+     */
+    public function getSummary($page=1, $size = 20){
+        (new PagingParameter())->goCheck();
+//        $uid = Token::getCurrentUid();
+        $pagingOrders = OrderModel::getSummaryByPage($page, $size);
+        if ($pagingOrders->isEmpty())
+        {
+            return [
+                'current_page' => $pagingOrders->currentPage(),
+                'data' => ['data' => []]
+            ];
+        }
+        $data = $pagingOrders->hidden(['snap_items', 'snap_address'])
+            ->toArray();
+        return [
+            'current_page' => $pagingOrders->currentPage(),
+            'data' => $data
+        ];
+    }
+
     // 订单发货
-    // public function delivery($id)
-    // {
-    //     (new IDMustBePositiveInt())->goCheck();
-    //     $order = new OrderService();
-    //     $success = $order->delivery($id);
-    //     if($success){
-    //         return new SuccessMessage();
-    //     }
-    // }
+    public function delivery($id)
+    {
+        (new IDMustBePostiveInt())->goCheck();
+        $order = new OrderService();
+        $success = $order->delivery($id);
+        if($success){
+            return new SuccessMessage();
+        }
+    }
 }

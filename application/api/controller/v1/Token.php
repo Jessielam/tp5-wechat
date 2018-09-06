@@ -7,6 +7,8 @@ use app\api\service\UserToken;
 use app\api\controller\BaseController;
 use app\lib\exception\ParamterException;
 use app\api\service\Token as TokenService;
+use app\api\service\AppToken as AppTokenService;
+use app\api\validate\AppTokenGet;
 
 /**
  * 获取令牌，相当于登录
@@ -42,6 +44,21 @@ class Token extends BaseController
         $valid = TokenService::verifyToken($token);
         return [
             'isValid' => $valid
+        ];
+    }
+
+    /**
+     * 第三方应用获取令牌
+     * @url /app_token?
+     * @method POST
+     */
+    public function getAppToken($ac='', $se='')
+    {
+        (new AppTokenGet())->goCheck();
+        $app = new AppTokenService();
+        $token = $app->get($ac, $se);
+        return [
+            'token' => $token
         ];
     }
 }

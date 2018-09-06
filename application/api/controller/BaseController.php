@@ -16,12 +16,12 @@ class BaseController extends Controller
     // 用户权限
     protected function checkExclusiveScope()
     {
-        Toke::needExclusiveScope();
+        Token::needExclusiveScope();
     }
 
     // 管理员权限
     protected function checkSuperScope()
     {
-        Toke::needSuperScope();
+        Token::needSuperScope();
     }
 }

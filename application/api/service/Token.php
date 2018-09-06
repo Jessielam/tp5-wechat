@@ -81,7 +81,7 @@ class Token
     // NOTE： 只有管理员可以访问的权限
     public static function needSuperScope()
     {
-        $scope = self::getCurrentTokenVar('scope');
+        $scope = self::getCurrentTokenVal('scope');
         if ($scope){
             if ($scope == ScopeEnum::SUPER) {
                 return true;
